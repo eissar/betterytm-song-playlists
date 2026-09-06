@@ -1,25 +1,22 @@
 // ==UserScript==
 // @name         BetterYTM Song Playlists
 // @namespace    https://github.com/eissar
-// @version      0.2.1
+// @version      0.2.2
 // @author       eissar
 // @description  Enumerates and shows which of your playlists contain the selected song in YouTube Music.
 // @license      MIT
 // @copyright    Copyright 2026 eissar
-// @icon         http://localhost:8767/assets/plugin_icon_128x128.png
+// @icon         https://raw.githubusercontent.com/eissar/betterytm-song-playlists/main/assets/plugin_icon_128x128.png#sha256=4GgH3wuDgVjYVPf1s6NURcDU0QvjnLCigrlKowsF6x8=
 // @homepage     https://github.com/eissar/betterytm-song-playlists
 // @homepageURL  https://github.com/eissar/betterytm-song-playlists
 // @source       https://github.com/eissar/betterytm-song-playlists.git
 // @supportURL   https://github.com/eissar/betterytm-song-playlists/issues
-// @downloadURL  http://localhost:8767/betterytm-song-playlists.user.js
-// @updateURL    http://localhost:8767/betterytm-song-playlists.user.js
+// @downloadURL  https://github.com/eissar/betterytm-song-playlists/releases/latest/download/betterytm-song-playlists.user.js
+// @updateURL    https://github.com/eissar/betterytm-song-playlists/releases/latest/download/betterytm-song-playlists.user.js
 // @match        https://youtube.com/*
 // @match        https://music.youtube.com/*
-// @resource     doc_license     http://localhost:8767/LICENSE.txt
-// @resource     icon_1000       http://localhost:8767/assets/plugin_icon_1000x1000.png
-// @resource     icon_128        http://localhost:8767/assets/plugin_icon_128x128.png
-// @resource     library_lodash  https://cdn.jsdelivr.net/npm/lodash@4.17.21#sha256=qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=
-// @resource     script_example  http://localhost:8767/assets/resourceExample.js
+// @resource     icon_1000  https://raw.githubusercontent.com/eissar/betterytm-song-playlists/main/assets/plugin_icon_1000x1000.png#sha256=IrFR29ZTCXuH5WsSVcmPn5FA+GvBopOyGR9lFSi4s5c=
+// @resource     icon_128   https://raw.githubusercontent.com/eissar/betterytm-song-playlists/main/assets/plugin_icon_128x128.png#sha256=4GgH3wuDgVjYVPf1s6NURcDU0QvjnLCigrlKowsF6x8=
 // @connect      i.ytimg.com
 // @connect      youtube.com
 // @connect      github.com
@@ -47,7 +44,7 @@
   })(PluginIntent || {});
   const userscriptName = "BetterYTM Song Playlists";
   const description = "Enumerates and shows which of your playlists contain the selected song in YouTube Music.";
-  const version = "0.2.1";
+  const version = "0.2.2";
   const homepage = "https://github.com/eissar/betterytm-song-playlists";
   const namespace = "https://github.com/eissar";
   const license = "MIT";
@@ -85,7 +82,7 @@
         url: packageJson.licenseUrl
       },
       // If you have a logo, you can add it here - it should *ideally* be square and between 48x48 and 128x128:
-      iconUrl: "https://raw.githubusercontent.com/Sv443/BetterYTM-Plugin-Template/main/assets/plugin_icon_128x128.png"
+      iconUrl: "https://raw.githubusercontent.com/eissar/betterytm-song-playlists/main/assets/plugin_icon_128x128.png"
     }
     // If you have contributors defined in package.json, you can add them here:
     // contributors,
@@ -104,8 +101,8 @@
   function log(...args) {
     console.log(consPrefix, ...args);
   }
-  const buildModeRaw = "development";
-  const buildNumberRaw = "fcd66bc";
+  const buildModeRaw = "production";
+  const buildNumberRaw = "9f6caa3";
   const buildMode = buildModeRaw.startsWith("#{{") ? "BUILD_ERROR" : buildModeRaw;
   const buildNumber = buildNumberRaw.startsWith("#{{") ? "BUILD_ERROR" : buildNumberRaw;
   async function getSapisidHash(origin) {

@@ -26,7 +26,10 @@ export const defaultPort = 8767;
 export const defaultRepo = "Sv443/BetterYTM-Plugin-Template";
 
 
-const repo = repository.url.match(/github.com\/(.+?\/.+?)\//)?.[1] ?? defaultRepo;
+const repoMatch = repository.url.match(/github\.com[/:]([^/]+)\/([^/]+)/);
+const repo = repoMatch
+  ? `${repoMatch[1]}/${repoMatch[2].replace(/\.git$/, "")}`
+  : defaultRepo;
 
 const cliPortRaw = Number(argv.find(arg => arg.startsWith("--port="))?.split("=")[1]);
 const envPortRaw = Number(env.DEV_SERVER_PORT);
@@ -43,7 +46,7 @@ const devServerPort = !isNaN(cliPortRaw)
 
 export default defineConfig(async ({ mode }) => {
   const buildNbr = getCommitSha();
-  const resources = await getResources(mode, buildNbr);
+  const resources = await getResources(mode, "main");
 
   return {
     build: {
@@ -101,10 +104,10 @@ export default defineConfig(async ({ mode }) => {
             "https://youtube.com/*",
             "https://music.youtube.com/*",
           ],
-          icon: await getResourceUrl(mode, "plugin_icon_128x128.png", buildNbr),
+          icon: await getResourceUrl(mode, "plugin_icon_128x128.png", "main"),
           resource: {
-            icon_1000: await getResourceUrl(mode, "plugin_icon_1000x1000.png", buildNbr),
-            icon_128: await getResourceUrl(mode, "plugin_icon_128x128.png", buildNbr),
+            icon_1000: await getResourceUrl(mode, "plugin_icon_1000x1000.png", "main"),
+            icon_128: await getResourceUrl(mode, "plugin_icon_128x128.png", "main"),
             ...resources,
           },
         },

@@ -23,7 +23,7 @@ export const pluginDef: PluginDef = {
       url: pkg.licenseUrl,
     },
     // If you have a logo, you can add it here - it should *ideally* be square and between 48x48 and 128x128:
-    iconUrl: "https://raw.githubusercontent.com/Sv443/BetterYTM-Plugin-Template/main/assets/plugin_icon_128x128.png",
+    iconUrl: "https://raw.githubusercontent.com/eissar/betterytm-song-playlists/main/assets/plugin_icon_128x128.png",
   },
   // If you have contributors defined in package.json, you can add them here:
   // contributors,

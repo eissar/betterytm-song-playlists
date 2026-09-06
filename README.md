@@ -7,6 +7,8 @@
 
 > ⚡ *Vibecoded using Gemini 3.8 Flash.*
 
+> Built on the [BetterYTM plugin template](https://github.com/Sv443/BetterYTM-Plugin-Template); interfaces with the [BetterYTM](https://github.com/Sv443/BetterYTM) project under the [BetterYTM Plugin Sublicense Agreement v2](https://github.com/Sv443/BetterYTM/blob/main/license-for-plugins.txt).
+
 ---
 
 ## Overview
