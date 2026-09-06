@@ -1,24 +1,24 @@
 {
-  "name": "betterytm-plugin-template",
-  "userscriptName": "BetterYTM Plugin Template",
-  "description": "Example and template for creating a plugin using BetterYTM's existing API to further improve YouTube and YouTube Music.",
+  "name": "betterytm-song-playlists",
+  "userscriptName": "BetterYTM Song Playlists",
+  "description": "Enumerates and shows which of your playlists contain the selected song in YouTube Music.",
   "version": "0.1.0",
-  "homepage": "https://github.com/Sv443/BetterYTM-Plugin-Template",
-  "namespace": "https://github.com/Sv443",
-  "license": "WTFPL",
-  "licenseUrl": "https://github.com/Sv443/BetterYTM-Plugin-Template/blob/main/LICENSE.txt",
+  "homepage": "https://github.com/eissar/betterytm-song-playlists",
+  "namespace": "https://github.com/eissar",
+  "license": "MIT",
+  "licenseUrl": "https://github.com/eissar/betterytm-song-playlists/blob/main/LICENSE.txt",
   "author": {
-    "name": "Sv443",
-    "url": "https://github.com/Sv443"
+    "name": "eissar",
+    "url": "https://github.com/eissar"
   },
-  "private": true,
+  "private": false,
   "type": "module",
   "bugs": {
-    "url": "https://github.com/Sv443/BetterYTM-Plugin-Template/issues"
+    "url": "https://github.com/eissar/betterytm-song-playlists/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sv443/BetterYTM-Plugin-Template.git"
+    "url": "git+https://github.com/eissar/betterytm-song-playlists.git"
   },
   "scripts": {
     "dev": "concurrently \"nodemon --exec pnpm build-dev\" \"pnpm serve\"",
