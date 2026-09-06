@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BetterYTM Song Playlists
 // @namespace    https://github.com/eissar
-// @version      0.2.0
+// @version      0.2.1
 // @author       eissar
 // @description  Enumerates and shows which of your playlists contain the selected song in YouTube Music.
 // @license      MIT
@@ -47,7 +47,7 @@
   })(PluginIntent || {});
   const userscriptName = "BetterYTM Song Playlists";
   const description = "Enumerates and shows which of your playlists contain the selected song in YouTube Music.";
-  const version = "0.2.0";
+  const version = "0.2.1";
   const homepage = "https://github.com/eissar/betterytm-song-playlists";
   const namespace = "https://github.com/eissar";
   const license = "MIT";
@@ -105,7 +105,7 @@
     console.log(consPrefix, ...args);
   }
   const buildModeRaw = "development";
-  const buildNumberRaw = "e6748f5";
+  const buildNumberRaw = "fcd66bc";
   const buildMode = buildModeRaw.startsWith("#{{") ? "BUILD_ERROR" : buildModeRaw;
   const buildNumber = buildNumberRaw.startsWith("#{{") ? "BUILD_ERROR" : buildNumberRaw;
   async function getSapisidHash(origin) {
@@ -208,6 +208,18 @@
     log("BytmDialog unavailable, using standalone dialog");
     return showStandalonePlaylistDialog(playlists);
   }
+  function navigateToPlaylistInternal(playlistId) {
+    const app = document.querySelector("ytmusic-app");
+    if (!app) return false;
+    const endpoint = {
+      browseEndpoint: {
+        browseId: `VL${playlistId}`,
+        canonicalBaseUrl: `/playlist?list=${encodeURIComponent(playlistId)}`
+      }
+    };
+    app.dispatchEvent(new CustomEvent("yt-navigate", { bubbles: true, composed: true, detail: { endpoint } }));
+    return true;
+  }
   function buildPlaylistListBody(playlists, onClose) {
     const cont = document.createElement("div");
     cont.style.display = "flex";
@@ -270,8 +282,11 @@
       item.appendChild(iconSvg);
       item.appendChild(titleSpan);
       item.addEventListener("click", (e) => {
-        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
-          onClose();
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        onClose();
+        if (!navigateToPlaylistInternal(pl.playlistId)) {
+          window.location.assign(`/playlist?list=${encodeURIComponent(pl.playlistId)}`);
         }
       });
       cont.appendChild(item);

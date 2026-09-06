@@ -44,6 +44,24 @@ export async function showPlaylistListDialog(playlists: PlaylistResult[]) {
   return showStandalonePlaylistDialog(playlists);
 }
 
+/**
+ * Navigates using YTM's internal SPA router by firing a bubbling `yt-navigate` CustomEvent with a browse endpoint.
+ * This is the same mechanism YTM's own components use (Polymer `uR("yt-navigate")` -> `onYtNavigate_`),
+ * keeping playback alive when going back in history. Falls back to false if the app element is missing.
+ */
+function navigateToPlaylistInternal(playlistId: string): boolean {
+  const app = document.querySelector("ytmusic-app");
+  if (!app) return false;
+  const endpoint = {
+    browseEndpoint: {
+      browseId: `VL${playlistId}`,
+      canonicalBaseUrl: `/playlist?list=${encodeURIComponent(playlistId)}`,
+    },
+  };
+  app.dispatchEvent(new CustomEvent("yt-navigate", { bubbles: true, composed: true, detail: { endpoint } }));
+  return true;
+}
+
 /** Builds the scrollable playlist list body, shared between the BytmDialog and standalone dialog paths */
 function buildPlaylistListBody(playlists: PlaylistResult[], onClose: () => void) {
   const cont = document.createElement("div");
@@ -116,9 +134,14 @@ function buildPlaylistListBody(playlists: PlaylistResult[], onClose: () => void)
     item.appendChild(titleSpan);
 
     item.addEventListener("click", (e) => {
-      // If not middle-clicked / modified click, close dialog and let navigation proceed
-      if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
-        onClose();
+      // Middle-click / modified clicks keep native new-tab behavior via the href
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+
+      // Plain left click: use YTM's internal SPA navigation so history back doesn't interrupt playback
+      e.preventDefault();
+      onClose();
+      if (!navigateToPlaylistInternal(pl.playlistId)) {
+        window.location.assign(`/playlist?list=${encodeURIComponent(pl.playlistId)}`);
       }
     });
 
