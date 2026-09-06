@@ -1,25 +1,28 @@
-import { events, tryRegisterPlugin } from "@utils/plugin.js";
+import { tryRegisterPlugin } from "@utils/plugin.js";
 import { log } from "@utils/logging.js";
 import { buildNumber, buildMode } from "@utils/constants.js";
 import { initMenuInjector } from "@/menu.js";
 import "@/types.js";
 
-// Plugin registration
-unsafeWindow.addEventListener("bytm:registerPlugin", async (registerPlugin) => {
+// Always start the menu injector right away
+initMenuInjector();
+
+function onRegister(evt: Event) {
+  const customEvt = evt as CustomEvent<(def: unknown) => unknown>;
   try {
-    await tryRegisterPlugin(registerPlugin);
+    tryRegisterPlugin(customEvt as unknown as WindowEventMap["bytm:registerPlugin"]);
     log(
-      `Registered plugin successfully! (v${unsafeWindow.BYTM.version}, build ${buildNumber}, ${buildMode} mode)`
+      `Registered with BetterYTM (v${unsafeWindow.BYTM?.version ?? "unknown"}, build ${buildNumber}, ${buildMode} mode)`
     );
-
-    events.once("bytm:ready", run);
   } catch (err) {
-    alert("Couldn't register BetterYTM Song Playlists plugin. See console for details.");
-    console.error("Plugin registration error:", err);
+    console.error("[BetterYTM Song Playlists] Registration error:", err);
   }
-});
-
-function run() {
-  log("Initializing Song Playlists menu injector...");
-  initMenuInjector();
 }
+
+// In userscripts, unsafeWindow is the shared page window between scripts
+unsafeWindow.addEventListener("bytm:registerPlugin", onRegister, { once: true });
+unsafeWindow.addEventListener("bytm:preInitPlugin", onRegister, { once: true });
+
+
+
+

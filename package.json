@@ -2,7 +2,7 @@
   "name": "betterytm-song-playlists",
   "userscriptName": "BetterYTM Song Playlists",
   "description": "Enumerates and shows which of your playlists contain the selected song in YouTube Music.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/eissar/betterytm-song-playlists",
   "namespace": "https://github.com/eissar",
   "license": "MIT",

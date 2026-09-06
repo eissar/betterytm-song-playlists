@@ -34,6 +34,11 @@ export let events: PluginRegisterResult["events"];
 /** A token you can use to identify your plugin in BetterYTM's authenticated function calls */
 export let token: PluginRegisterResult["token"];
 
+export function setRegisteredResult(res: PluginRegisterResult) {
+  events = res.events;
+  token = res.token;
+}
+
 /**
  * Call once after `bytm:registerPlugins` to try to register the plugin.  
  * Resolves as soon as `bytm:pluginsRegistered` was emitted.  
@@ -41,8 +46,7 @@ export let token: PluginRegisterResult["token"];
  */
 export function tryRegisterPlugin({ detail: registerPlugin }: WindowEventMap["bytm:registerPlugin"]) {
   const res = registerPlugin(pluginDef);
-  events = res.events;
-  token = res.token;
+  setRegisteredResult(res);
 
-  return events.once("pluginRegistered");
+  return res;
 }

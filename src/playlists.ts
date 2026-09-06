@@ -2,7 +2,7 @@
  * YouTube InnerTube dynamic playlist containment checker
  */
 
-interface PlaylistResult {
+export interface PlaylistResult {
   title: string;
   playlistId: string;
 }

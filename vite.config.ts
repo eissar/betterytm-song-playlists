@@ -79,6 +79,12 @@ export default defineConfig(async ({ mode }) => {
           description: packageJson.description,
           homepageURL: homepage,
           supportURL: packageJson.bugs.url,
+          updateURL: mode === "development"
+            ? `http://localhost:${devServerPort}/${encodeURIComponent(userscriptName.toLowerCase().replace(/ /g, "-"))}.user.js`
+            : `https://github.com/${repo}/releases/latest/download/betterytm-song-playlists.user.js`,
+          downloadURL: mode === "development"
+            ? `http://localhost:${devServerPort}/${encodeURIComponent(userscriptName.toLowerCase().replace(/ /g, "-"))}.user.js`
+            : `https://github.com/${repo}/releases/latest/download/betterytm-song-playlists.user.js`,
           grant: [
             "unsafeWindow", // necessary for interacting with the BYTM API
             // these are commonly used - add or remove as needed:
