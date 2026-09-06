@@ -1,0 +1,9 @@
+{
+  "icon_128": "plugin_icon_128x128.png",
+  "doc_license": {
+    "path": "/LICENSE.txt",
+    "integrity": false
+  },
+  "script_example": "resourceExample.js",
+  "library_lodash": "https://cdn.jsdelivr.net/npm/lodash@4.17.21"
+}

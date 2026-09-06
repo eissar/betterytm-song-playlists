@@ -1,0 +1,76 @@
+{
+  "name": "betterytm-plugin-template",
+  "userscriptName": "BetterYTM Plugin Template",
+  "description": "Example and template for creating a plugin using BetterYTM's existing API to further improve YouTube and YouTube Music.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Sv443/BetterYTM-Plugin-Template",
+  "namespace": "https://github.com/Sv443",
+  "license": "WTFPL",
+  "licenseUrl": "https://github.com/Sv443/BetterYTM-Plugin-Template/blob/main/LICENSE.txt",
+  "author": {
+    "name": "Sv443",
+    "url": "https://github.com/Sv443"
+  },
+  "private": true,
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Sv443/BetterYTM-Plugin-Template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sv443/BetterYTM-Plugin-Template.git"
+  },
+  "scripts": {
+    "dev": "concurrently \"nodemon --exec pnpm build-dev\" \"pnpm serve\"",
+    "build-dev": "vite build --mode development",
+    "build": "vite build --mode production",
+    "serve": "node --import tsx ./src/tools/serve.ts",
+    "lint": "eslint src/**/*",
+    "format": "eslint --fix src/**/*"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src/**",
+      "assets/**",
+      "vite.config.ts",
+      ".env",
+      "changelog.md",
+      "package.json"
+    ],
+    "ext": "ts,mts,js,jsx,mjs,json,html,css,svg,png",
+    "ignore": [
+      "node_modules/**",
+      "dist/**"
+    ]
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=8"
+  },
+  "dependencies": {
+    "@sv443-network/userutils": "^8.4.0",
+    "compare-versions": "^6.1.1",
+    "nanoevents": "^9.1.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.27.0",
+    "@types/express": "^4.17.22",
+    "@types/greasemonkey": "^4.0.7",
+    "@types/node": "^22.15.21",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.27.0",
+    "express": "^4.21.2",
+    "globals": "^15.15.0",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.19",
+    "vite-plugin-monkey": "^4.0.6",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}

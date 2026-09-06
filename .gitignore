@@ -1,0 +1,8 @@
+.env
+node_modules
+dist/*.js
+!*.user.js
+*.proxy.user.js
+vite.config.ts.timestamp-*
+test.ts
+test.js
