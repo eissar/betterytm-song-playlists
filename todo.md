@@ -4,6 +4,7 @@
 1. **Modal / UI Prompt**: Investigate if it is possible to open a modal similar to the "Save to playlist" prompt that lists all playlists currently containing the selected track/song. [Completed - Implemented via `BytmDialog` in `src/dialog.ts`]
 2. **Navigation**: Clicking on one of these listed playlists should navigate to / open that playlist directly (rather than toggling add/remove from playlist). [Completed - Integrated into `BytmDialog` playlist items via `/playlist?list=...` links]
 3. **Action Icon**: Improve appearance with a dedicated action icon (can reuse/copy the "Save to playlist" icon for now). [Pending]
+4. **Navigation method is wrong for playlist items**: We currently use plain `<a href="/playlist?list=...">` links, which triggers full document navigation — going **back** in history interrupts/reloads playback. Need to use whatever YTM uses internally for client-side navigation (Polymer router / `ytm-navigate`-style data endpoints / the app's internal `navigateTo`), so history back/forward keeps continuous playback. Investigate how YTM's own menu items navigate (e.g. `watchEndpoint`/`browseEndpoint` + the page's navigation service) and reuse that. [Pending]
 
 ## Research Notes & Findings
 
