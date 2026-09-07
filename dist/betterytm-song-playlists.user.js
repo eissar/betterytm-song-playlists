@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BetterYTM Song Playlists
 // @namespace    https://github.com/eissar
-// @version      0.2.2
+// @version      0.2.3
 // @author       eissar
 // @description  Enumerates and shows which of your playlists contain the selected song in YouTube Music.
 // @license      MIT
@@ -44,7 +44,7 @@
   })(PluginIntent || {});
   const userscriptName = "BetterYTM Song Playlists";
   const description = "Enumerates and shows which of your playlists contain the selected song in YouTube Music.";
-  const version = "0.2.2";
+  const version = "0.2.3";
   const homepage = "https://github.com/eissar/betterytm-song-playlists";
   const namespace = "https://github.com/eissar";
   const license = "MIT";
@@ -102,7 +102,7 @@
     console.log(consPrefix, ...args);
   }
   const buildModeRaw = "production";
-  const buildNumberRaw = "9f6caa3";
+  const buildNumberRaw = "c280d4d";
   const buildMode = buildModeRaw.startsWith("#{{") ? "BUILD_ERROR" : buildModeRaw;
   const buildNumber = buildNumberRaw.startsWith("#{{") ? "BUILD_ERROR" : buildNumberRaw;
   async function getSapisidHash(origin) {
@@ -336,7 +336,7 @@
       const vid = ((_c = ep == null ? void 0 : ep.watchEndpoint) == null ? void 0 : _c.videoId) || ((_e = (_d = ep == null ? void 0 : ep.queueAddEndpoint) == null ? void 0 : _d.queueTarget) == null ? void 0 : _e.videoId) || ((_f = ep == null ? void 0 : ep.shareEntityEndpoint) == null ? void 0 : _f.serializedShareEntity);
       if (vid && vid.length === 11) return vid;
     }
-    return new URLSearchParams(location.search).get("v");
+    return null;
   }
   function initMenuInjector() {
     log("Initializing menu observer...");
@@ -425,8 +425,11 @@
     attachObserver();
   }
   initMenuInjector();
+  let isRegistered = false;
   function onRegister(evt) {
     var _a;
+    if (isRegistered) return;
+    isRegistered = true;
     const customEvt = evt;
     try {
       tryRegisterPlugin(customEvt);
@@ -438,6 +441,5 @@
     }
   }
   unsafeWindow.addEventListener("bytm:registerPlugin", onRegister, { once: true });
-  unsafeWindow.addEventListener("bytm:preInitPlugin", onRegister, { once: true });
 
 })();

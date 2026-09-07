@@ -40,8 +40,7 @@ function resolveVideoId(menuPopup: HTMLElement): string | null {
     if (vid && vid.length === 11) return vid;
   }
 
-  // 3. Fallback: video ID from current URL
-  return new URLSearchParams(location.search).get("v");
+  return null;
 }
 
 /**

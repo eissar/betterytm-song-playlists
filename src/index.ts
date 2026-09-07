@@ -7,7 +7,12 @@ import "@/types.js";
 // Always start the menu injector right away
 initMenuInjector();
 
+let isRegistered = false;
+
 function onRegister(evt: Event) {
+  if (isRegistered) return;
+  isRegistered = true;
+
   const customEvt = evt as CustomEvent<(def: unknown) => unknown>;
   try {
     tryRegisterPlugin(customEvt as unknown as WindowEventMap["bytm:registerPlugin"]);
@@ -21,7 +26,6 @@ function onRegister(evt: Event) {
 
 // In userscripts, unsafeWindow is the shared page window between scripts
 unsafeWindow.addEventListener("bytm:registerPlugin", onRegister, { once: true });
-unsafeWindow.addEventListener("bytm:preInitPlugin", onRegister, { once: true });
 
 
 
