@@ -44,8 +44,8 @@ export function setRegisteredResult(res: PluginRegisterResult) {
  * Resolves as soon as `bytm:pluginsRegistered` was emitted.  
  * Throws if the {@linkcode pluginDef} is wrong.
  */
-export function tryRegisterPlugin({ detail: registerPlugin }: WindowEventMap["bytm:registerPlugin"]) {
-  const res = registerPlugin(pluginDef);
+export async function tryRegisterPlugin({ detail: registerPlugin }: WindowEventMap["bytm:registerPlugin"]) {
+  const res = await registerPlugin(pluginDef);
   setRegisteredResult(res);
 
   return res;
