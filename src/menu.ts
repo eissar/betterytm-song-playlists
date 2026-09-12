@@ -1,5 +1,6 @@
 import { getContainingPlaylists } from "@/playlists.js";
 import { showPlaylistListDialog } from "@/dialog.js";
+import { token } from "@utils/plugin.ts";
 import { log } from "@utils/logging.js";
 
 /**
@@ -120,7 +121,7 @@ export function initMenuInjector() {
               : "This song is not in any of your playlists.";
 
           if (unsafeWindow.BYTM?.showPrompt) {
-            await unsafeWindow.BYTM.showPrompt({
+            await unsafeWindow.BYTM.showPrompt(token, {
               title: "Containing Playlists",
               message: listText,
               type: "alert",

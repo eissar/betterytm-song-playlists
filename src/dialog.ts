@@ -7,11 +7,10 @@ import type { PlaylistResult } from "@/playlists.js";
  */
 export async function showPlaylistListDialog(playlists: PlaylistResult[]) {
   const bytm = unsafeWindow.BYTM;
-  log(`showPlaylistListDialog: BYTM=${typeof bytm}, token=${token ? "ok" : "missing"}, getBytmDialog=${typeof bytm?.getBytmDialog}, legacy BytmDialog=${typeof bytm?.BytmDialog}`);
+  log(`showPlaylistListDialog: BYTM=${typeof bytm}, token=${token ? "ok" : "missing"}, getBytmDialog=${typeof bytm?.getBytmDialog}`);
 
   const BytmDialogClass =
-    (typeof bytm?.getBytmDialog === "function" ? bytm.getBytmDialog(token) : undefined)
-    ?? (bytm?.BytmDialog as typeof bytm.BytmDialog | undefined);
+    (typeof bytm?.getBytmDialog === "function" ? bytm.getBytmDialog(token) : undefined);
 
   if (BytmDialogClass) {
     const dialog = new BytmDialogClass({

@@ -5,7 +5,7 @@ import pkg from "@root/package.json" with { type: "json" };
 /** This object contains all the metadata of your plugin that is used by BetterYTM to display information about your plugin */
 export const pluginDef: PluginDef = {
   // The permissions of the plugin:
-  intents: PluginIntent.ReadFeatureConfig | PluginIntent.CreateModalDialogs,
+  intents: PluginIntent.CreateModalDialogs,
   // The metadata of the plugin:
   plugin: {
     name: pkg.userscriptName,
@@ -44,8 +44,8 @@ export function setRegisteredResult(res: PluginRegisterResult) {
  * Resolves as soon as `bytm:pluginsRegistered` was emitted.  
  * Throws if the {@linkcode pluginDef} is wrong.
  */
-export function tryRegisterPlugin({ detail: registerPlugin }: WindowEventMap["bytm:registerPlugin"]) {
-  const res = registerPlugin(pluginDef);
+export async function tryRegisterPlugin({ detail: registerPlugin }: WindowEventMap["bytm:registerPlugin"]) {
+  const res = await registerPlugin(pluginDef);
   setRegisteredResult(res);
 
   return res;

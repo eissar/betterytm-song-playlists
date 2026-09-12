@@ -9,13 +9,13 @@ initMenuInjector();
 
 let isRegistered = false;
 
-function onRegister(evt: Event) {
+async function onRegister(evt: Event) {
   if (isRegistered) return;
   isRegistered = true;
 
   const customEvt = evt as CustomEvent<(def: unknown) => unknown>;
   try {
-    tryRegisterPlugin(customEvt as unknown as WindowEventMap["bytm:registerPlugin"]);
+    await tryRegisterPlugin(customEvt as unknown as WindowEventMap["bytm:registerPlugin"]);
     log(
       `Registered with BetterYTM (v${unsafeWindow.BYTM?.version ?? "unknown"}, build ${buildNumber}, ${buildMode} mode)`
     );
