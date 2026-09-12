@@ -64,7 +64,7 @@
   };
   const pluginDef = {
     // The permissions of the plugin:
-    intents: PluginIntent.ReadFeatureConfig | PluginIntent.CreateModalDialogs,
+    intents: PluginIntent.CreateModalDialogs,
     // The metadata of the plugin:
     plugin: {
       name: packageJson.userscriptName,
@@ -92,8 +92,8 @@
     res.events;
     token = res.token;
   }
-  function tryRegisterPlugin({ detail: registerPlugin }) {
-    const res = registerPlugin(pluginDef);
+  async function tryRegisterPlugin({ detail: registerPlugin }) {
+    const res = await registerPlugin(pluginDef);
     setRegisteredResult(res);
     return res;
   }
@@ -102,7 +102,7 @@
     console.log(consPrefix, ...args);
   }
   const buildModeRaw = "production";
-  const buildNumberRaw = "c280d4d";
+  const buildNumberRaw = "55bcba4";
   const buildMode = buildModeRaw.startsWith("#{{") ? "BUILD_ERROR" : buildModeRaw;
   const buildNumber = buildNumberRaw.startsWith("#{{") ? "BUILD_ERROR" : buildNumberRaw;
   async function getSapisidHash(origin) {
@@ -174,8 +174,8 @@
   }
   async function showPlaylistListDialog(playlists) {
     const bytm = unsafeWindow.BYTM;
-    log(`showPlaylistListDialog: BYTM=${typeof bytm}, token=${token ? "ok" : "missing"}, getBytmDialog=${typeof (bytm == null ? void 0 : bytm.getBytmDialog)}, legacy BytmDialog=${typeof (bytm == null ? void 0 : bytm.BytmDialog)}`);
-    const BytmDialogClass = (typeof (bytm == null ? void 0 : bytm.getBytmDialog) === "function" ? bytm.getBytmDialog(token) : void 0) ?? (bytm == null ? void 0 : bytm.BytmDialog);
+    log(`showPlaylistListDialog: BYTM=${typeof bytm}, token=${token ? "ok" : "missing"}, getBytmDialog=${typeof (bytm == null ? void 0 : bytm.getBytmDialog)}`);
+    const BytmDialogClass = typeof (bytm == null ? void 0 : bytm.getBytmDialog) === "function" ? bytm.getBytmDialog(token) : void 0;
     if (BytmDialogClass) {
       const dialog = new BytmDialogClass({
         id: "song-playlists-dialog",
@@ -388,7 +388,7 @@
 
 ` + playlists.map((p) => `• ${p.title}`).join("\n") : "This song is not in any of your playlists.";
             if ((_a = unsafeWindow.BYTM) == null ? void 0 : _a.showPrompt) {
-              await unsafeWindow.BYTM.showPrompt({
+              await unsafeWindow.BYTM.showPrompt(token, {
                 title: "Containing Playlists",
                 message: listText,
                 type: "alert",
@@ -426,13 +426,13 @@
   }
   initMenuInjector();
   let isRegistered = false;
-  function onRegister(evt) {
+  async function onRegister(evt) {
     var _a;
     if (isRegistered) return;
     isRegistered = true;
     const customEvt = evt;
     try {
-      tryRegisterPlugin(customEvt);
+      await tryRegisterPlugin(customEvt);
       log(
         `Registered with BetterYTM (v${((_a = unsafeWindow.BYTM) == null ? void 0 : _a.version) ?? "unknown"}, build ${buildNumber}, ${buildMode} mode)`
       );
