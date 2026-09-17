@@ -1,3 +1,4 @@
+import { setPlaylistSearchIcon } from "@/menu-icon.js";
 import { getContainingPlaylists } from "@/playlists.js";
 import { showPlaylistListDialog } from "@/dialog.js";
 import { log } from "@utils/logging.js";
@@ -50,7 +51,11 @@ export function initMenuInjector() {
   log("Initializing menu observer...");
 
   const onListboxFound = (listbox: HTMLElement) => {
-    if (listbox.querySelector(".bytm-song-playlists-item")) return;
+    const existingItem = listbox.querySelector<HTMLElement>(".bytm-song-playlists-item");
+    if (existingItem) {
+      setPlaylistSearchIcon(existingItem);
+      return;
+    }
 
     // Verify this is a song/track popup menu by checking for common menu items
     const sampleItem = listbox.querySelector(
@@ -137,6 +142,8 @@ export function initMenuInjector() {
     });
 
     listbox.appendChild(menuItem);
+    // Install after connection so native Polymer stamping has supplied the icon.
+    setPlaylistSearchIcon(menuItem);
   };
 
   // Observe the document body for any popup iron-dropdown opening

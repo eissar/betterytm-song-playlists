@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BetterYTM Song Playlists
 // @namespace    https://github.com/eissar
-// @version      0.2.3
+// @version      0.2.4
 // @author       eissar
 // @description  Enumerates and shows which of your playlists contain the selected song in YouTube Music.
 // @license      MIT
@@ -44,7 +44,7 @@
   })(PluginIntent || {});
   const userscriptName = "BetterYTM Song Playlists";
   const description = "Enumerates and shows which of your playlists contain the selected song in YouTube Music.";
-  const version = "0.2.3";
+  const version = "0.2.4";
   const homepage = "https://github.com/eissar/betterytm-song-playlists";
   const namespace = "https://github.com/eissar";
   const license = "MIT";
@@ -102,9 +102,46 @@
     console.log(consPrefix, ...args);
   }
   const buildModeRaw = "production";
-  const buildNumberRaw = "c280d4d";
+  const buildNumberRaw = "77b16b8";
   const buildMode = buildModeRaw.startsWith("#{{") ? "BUILD_ERROR" : buildModeRaw;
   const buildNumber = buildNumberRaw.startsWith("#{{") ? "BUILD_ERROR" : buildNumberRaw;
+  const iconClass = "bytm-playlist-search-icon";
+  function setPlaylistSearchIcon(menuItem) {
+    const root = menuItem.shadowRoot ?? menuItem;
+    const nativeIcon = root.querySelector("yt-icon, iron-icon, tp-yt-iron-icon");
+    const existingIcon = root.querySelector(`.${iconClass}`);
+    if (existingIcon) {
+      if (nativeIcon) nativeIcon.replaceWith(existingIcon);
+      return;
+    }
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", `${(nativeIcon == null ? void 0 : nativeIcon.getAttribute("class")) ?? "icon"} ${iconClass}`);
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "24");
+    svg.setAttribute("height", "24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.75");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    svg.style.flexShrink = "0";
+    svg.style.pointerEvents = "none";
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M3 5h14M3 10h8M3 15h5M19 18l3 3");
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", "15.5");
+    circle.setAttribute("cy", "14.5");
+    circle.setAttribute("r", "4.5");
+    svg.append(path, circle);
+    if (nativeIcon) {
+      nativeIcon.replaceWith(svg);
+    } else {
+      svg.style.marginInlineEnd = "16px";
+      root.prepend(svg);
+    }
+  }
   async function getSapisidHash(origin) {
     const match = document.cookie.match(/(?:^|;\s*)(?:SAPISID|__Secure-3PAPISID)=([^;]*)/);
     const sapisid = match ? match[1] : null;
@@ -341,7 +378,11 @@
   function initMenuInjector() {
     log("Initializing menu observer...");
     const onListboxFound = (listbox) => {
-      if (listbox.querySelector(".bytm-song-playlists-item")) return;
+      const existingItem = listbox.querySelector(".bytm-song-playlists-item");
+      if (existingItem) {
+        setPlaylistSearchIcon(existingItem);
+        return;
+      }
       const sampleItem = listbox.querySelector(
         "ytmusic-menu-service-item-renderer, ytmusic-menu-navigation-item-renderer"
       );
@@ -404,6 +445,7 @@
         }
       });
       listbox.appendChild(menuItem);
+      setPlaylistSearchIcon(menuItem);
     };
     const observer = new MutationObserver(() => {
       const listboxes = document.querySelectorAll(
